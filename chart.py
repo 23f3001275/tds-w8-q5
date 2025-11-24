@@ -29,16 +29,29 @@ df = pd.DataFrame(data)
 # 2) ----- Professional Seaborn styling -----
 sns.set_style("whitegrid")
 sns.set_context("talk")
-palette = sns.color_palette("viridis")
+palette = sns.color_palette("viridis", n_colors=len(segments))  # match segment length
 
 # 3) ----- Create the boxplot -----
-plt.figure(figsize=(5.12, 5.12))   # 5.12 inches * 100 dpi = 512 pixels
-sns.boxplot(data=df, x="Segment", y="Purchase_Amount", palette=palette)
+plt.figure(figsize=(5.12, 5.12))   # 512px * 512px @100dpi
 
-plt.title("Purchase Amount Distribution by Customer Segment", fontsize=16, fontweight="bold")
-plt.xlabel("Customer Segment")
-plt.ylabel("Purchase Amount ($)")
+sns.boxplot(
+    data=df,
+    x="Segment",
+    y="Purchase_Amount",
+    hue="Segment",          # remove warning by setting hue
+    palette=palette,
+    dodge=False,            # ensure one box per segment
+    legend=False            # hide legend since x and hue are same
+)
+
+# ----- Titles and labels with sufficient padding -----
+plt.title("Purchase Amount Distribution by Customer Segment",
+          fontsize=14, fontweight="bold", pad=20)
+plt.xlabel("Customer Segment", labelpad=12)
+plt.ylabel("Purchase Amount ($)", labelpad=12)
+
+plt.tight_layout()  # prevent truncation
 
 # 4) ----- Save EXACT 512x512 image -----
-plt.savefig("chart.png", dpi=100)  # 5.12 in * 100 dpi = EXACT 512 px
+plt.savefig("chart.png", dpi=100)  # 5.12 in * 100 dpi = 512px exactly
 plt.close()
