@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 
 # 1) ----- Generate synthetic business data -----
-np.random.seed(42)  # ensures reproducibility
+np.random.seed(42)
 
 segments = ["Budget", "Standard", "Premium", "Luxury"]
 
@@ -28,21 +28,17 @@ df = pd.DataFrame(data)
 
 # 2) ----- Professional Seaborn styling -----
 sns.set_style("whitegrid")
-sns.set_context("talk")  # presentation-level text scaling
+sns.set_context("talk")
 palette = sns.color_palette("viridis")
 
 # 3) ----- Create the boxplot -----
-plt.figure(figsize=(8, 8))   # ensures 512x512 after dpi scaling
+plt.figure(figsize=(5.12, 5.12))   # 5.12 inches * 100 dpi = 512 pixels
 sns.boxplot(data=df, x="Segment", y="Purchase_Amount", palette=palette)
 
 plt.title("Purchase Amount Distribution by Customer Segment", fontsize=16, fontweight="bold")
 plt.xlabel("Customer Segment")
 plt.ylabel("Purchase Amount ($)")
 
-# 4) ----- Save chart EXACTLY 512 x 512 px -----
-# dpi=64 → 8 inches * 64 dpi = 512 pixels
-plt.savefig("chart.png", dpi=64, bbox_inches="tight")
-
+# 4) ----- Save EXACT 512x512 image -----
+plt.savefig("chart.png", dpi=100)  # 5.12 in * 100 dpi = EXACT 512 px
 plt.close()
-
-
